@@ -1,0 +1,22 @@
+{
+	"name": "mandelbrot-set",
+	"version": "0.1.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"wasm": "file:../wasm/pkg"
+	},
+	"devDependencies": {
+		"typescript": "^5.2.2",
+		"vite": "^4.4.9",
+		"vite-plugin-wasm": "^3.2.2"
+	}
+}
