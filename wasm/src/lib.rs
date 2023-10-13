@@ -28,5 +28,5 @@ pub fn canvas_size() -> Box<[JsValue]> {
 #[wasm_bindgen]
 pub fn draw(ctx: &CanvasRenderingContext2d) {
     clear(ctx);
-    draw_rect(0, 0, (800, 800), (None, None, None, None), &ctx);
+    draw_rect((0, 0), (800, 800), (None, None, None, None), &ctx);
 }

@@ -19,7 +19,6 @@ function init(canvas: HTMLCanvasElement) {
 	bindListeners()
 
 	requestAnimationFrame(function loop() {
-		debugger
 		moveWithKeyboard()
 		draw(ctx)
 		requestAnimationFrame(loop)

@@ -49,8 +49,8 @@ pub fn translate(x: f64, y: f64) {
 pub fn zoom(v: f64) {
     unsafe {
         ZOOM = ZOOM.clone() * v;
-        ZOOM.0 = ZOOM.0.clamp(0.5, 10.0);
-        ZOOM.1 = ZOOM.1.clamp(0.5, 10.0);
+        ZOOM.0 = ZOOM.0.clamp(0.5, 100.0);
+        ZOOM.1 = ZOOM.1.clamp(0.5, 100.0);
     }
 }
 

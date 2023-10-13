@@ -4,7 +4,6 @@ use web_sys::CanvasRenderingContext2d;
 use crate::{
     render::{draw_dot, MANDELBROT_COLOR},
     to_vector_space,
-    utils::console_log,
     vector::Vec2,
 };
 
@@ -13,17 +12,17 @@ type SidesInSet = (Option<bool>, Option<bool>, Option<bool>, Option<bool>);
 
 // check whether a rectangle [sx, sx+size]x[sy, sy+size] is in mandelbrot set
 pub fn draw_rect(
-    sx: i32,
-    sy: i32,
+    s: (i32, i32),
     size: (i32, i32),
     sides: SidesInSet,
     ctx: &CanvasRenderingContext2d,
 ) {
+    let (sx, sy) = s;
     let (w, h) = size;
 
     if w <= 5 || h <= 5 {
-        for x in (sx)..=(sx + w) {
-            for y in (sy)..=(sy + h) {
+        for x in (sx)..(sx + w) {
+            for y in (sy)..(sy + h) {
                 let pt = Vec2(f64::from(x), f64::from(y));
                 if is_pt_in_set(&to_vector_space(&pt), 100) {
                     draw_dot(&pt, &ctx);
@@ -38,7 +37,7 @@ pub fn draw_rect(
 
     if top == None {
         top = '_top: {
-            for x in (sx)..=(sx + w) {
+            for x in (sx)..(sx + w) {
                 let pt = to_vector_space(&Vec2(f64::from(x), f64::from(sy)));
                 if !is_pt_in_set(&pt, 100) {
                     break '_top Some(false);
@@ -50,7 +49,7 @@ pub fn draw_rect(
 
     if right == None {
         right = '_right: {
-            for y in (sy)..=(sy + h) {
+            for y in (sy)..(sy + h) {
                 let pt = to_vector_space(&Vec2(f64::from(sx + w), f64::from(y)));
                 if !is_pt_in_set(&pt, 100) {
                     break '_right Some(false);
@@ -62,7 +61,7 @@ pub fn draw_rect(
 
     if bottom == None {
         bottom = '_bottom: {
-            for x in (sx)..=(sx + w) {
+            for x in (sx)..(sx + w) {
                 let pt = to_vector_space(&Vec2(f64::from(x), f64::from(sy + h)));
                 if !is_pt_in_set(&pt, 100) {
                     break '_bottom Some(false);
@@ -74,7 +73,7 @@ pub fn draw_rect(
 
     if left == None {
         left = '_left: {
-            for y in (sy)..=(sy + h) {
+            for y in (sy)..(sy + h) {
                 let pt = to_vector_space(&Vec2(f64::from(sx), f64::from(y)));
                 if !is_pt_in_set(&pt, 100) {
                     break '_left Some(false);
@@ -94,17 +93,16 @@ pub fn draw_rect(
     let (ow, oh) = (w - hw, h - hh);
 
     // top left
-    draw_rect(sx, sy, (hw, hh), (top, None, None, left), &ctx);
+    draw_rect((sx, sy), (hw, hh), (top, None, None, left), &ctx);
     // top right
-    draw_rect(sx + hw + 1, sy, (ow, hh), (top, right, None, None), &ctx);
+    draw_rect((sx + hw, sy), (ow, hh), (top, right, None, None), &ctx);
 
     // bottom left
-    draw_rect(sx, sy + hh + 1, (hw, oh), (None, None, bottom, left), &ctx);
+    draw_rect((sx, sy + hh), (hw, oh), (None, None, bottom, left), &ctx);
 
     // bottom right
     draw_rect(
-        sx + hw + 1,
-        sy + hh + 1,
+        (sx + hw, sy + hh),
         (ow, oh),
         (None, right, bottom, None),
         &ctx,
