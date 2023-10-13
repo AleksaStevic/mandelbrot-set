@@ -1,5 +1,5 @@
 import { draw, getCanvasSize } from 'wasm'
-import { onKeyDown, moveWithKeyboard, onKeyUp } from './events'
+import { onKeyDown, onKeyUp } from './events'
 
 const element = document.getElementById('mandelbrot-canvas')
 
@@ -17,12 +17,15 @@ function init(canvas: HTMLCanvasElement) {
 	if (!ctx) throw new Error('Rendering context not found')
 
 	bindListeners()
+	console.log('draw started')
+	draw(ctx)
+	console.log('draw finished')
 
-	requestAnimationFrame(function loop() {
-		moveWithKeyboard()
-		draw(ctx)
-		requestAnimationFrame(loop)
-	})
+	// requestAnimationFrame(function loop() {
+	// 	moveWithKeyboard()
+	// 	draw(ctx)
+	// 	requestAnimationFrame(loop)
+	// })
 }
 
 function bindListeners() {

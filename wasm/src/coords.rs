@@ -3,8 +3,8 @@ use crate::Vec2;
 use wasm_bindgen::prelude::*;
 
 // Use lazy_static to create a non-Sync static variable
-static mut TRANSLATION_VECTOR: Vec2 = Vec2(0.0, 0.0);
-static mut ZOOM: Vec2 = Vec2(1.0, 1.0);
+static mut TRANSLATION_VECTOR: Vec2 = Vec2(0.11, -0.895);
+static mut ZOOM: Vec2 = Vec2(1700.0, 1700.0);
 
 pub fn to_pixel_space(coords: &Vec2) -> Vec2 {
     let Vec2(x, y) = coords;
@@ -42,15 +42,15 @@ pub fn get_translation_vec() -> Vec2 {
 
 #[wasm_bindgen]
 pub fn translate(x: f64, y: f64) {
-    set_translation_vec(get_translation_vec() + Vec2(x, y))
+    set_translation_vec(get_translation_vec() + (Vec2(x, y) / get_zoom()))
 }
 
 #[wasm_bindgen]
 pub fn zoom(v: f64) {
     unsafe {
         ZOOM = ZOOM.clone() * v;
-        ZOOM.0 = ZOOM.0.clamp(0.5, 100.0);
-        ZOOM.1 = ZOOM.1.clamp(0.5, 100.0);
+        ZOOM.0 = ZOOM.0.clamp(0.5, 1000.0);
+        ZOOM.1 = ZOOM.1.clamp(0.5, 1000.0);
     }
 }
 

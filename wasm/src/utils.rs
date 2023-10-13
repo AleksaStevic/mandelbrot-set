@@ -18,4 +18,29 @@ macro_rules! console_log {
     }
 }
 
+use std::f64::consts::PI;
+
 pub(crate) use console_log;
+
+pub fn lch_coloring(n: i32, max: i32) -> (f64, f64, f64) {
+    let (nf, maxf) = (f64::from(n), f64::from(max));
+    let s = nf / maxf;
+    let v = 1.0 - (1.5 * PI * s + PI).cos().powf(2.0);
+    (
+        75.0 - (75.0 * v),
+        28.0 + (75.0 - (75.0 * v)),
+        (360.0 * s).powf(1.5) % 360.0,
+    )
+}
+
+pub fn hsl_coloring(n: i32, max: i32) -> (f64, f64, f64) {
+    let (nf, maxf) = (f64::from(n), f64::from(max));
+
+    (
+        (nf / maxf * 360.0).powf(1.5) % 360.0,
+        50.0,
+        nf / maxf * 100.0,
+    )
+
+    // hsl = [powf((i / max) * 360, 1.5) % 360, 50, (i / max) * 100]
+}

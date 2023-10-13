@@ -12,19 +12,19 @@ export function onKeyUp(event: KeyboardEvent) {
 
 export function moveWithKeyboard() {
 	if (pressedKeys.has('a')) {
-		translate(0.01, 0)
+		translate(0.1, 0)
 	}
 
 	if (pressedKeys.has('d')) {
-		translate(-0.01, 0)
+		translate(-0.1, 0)
 	}
 
 	if (pressedKeys.has('w')) {
-		translate(0, -0.01)
+		translate(0, -0.1)
 	}
 
 	if (pressedKeys.has('s')) {
-		translate(0, 0.01)
+		translate(0, 0.1)
 	}
 
 	// ZOOM:
