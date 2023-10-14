@@ -1,5 +1,7 @@
 # Mandelbrot Set Visualization
 
+https://mandelbrot-set-alpha.vercel.app/
+
 ## Requirements
 
 1. Rust
