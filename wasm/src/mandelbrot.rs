@@ -1,12 +1,7 @@
 use wasm_bindgen::JsValue;
 use web_sys::CanvasRenderingContext2d;
 
-use crate::{
-    render::{draw_dot_color_hsl, draw_dot_color_lch},
-    to_vector_space,
-    utils::{hsl_coloring, lch_coloring},
-    vector::Vec2,
-};
+use crate::{render::draw_dot_color_lch, to_vector_space, utils::lch_coloring, vector::Vec2};
 
 const NUM_ITERATIONS: i32 = 1000;
 
