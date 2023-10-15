@@ -22,25 +22,35 @@ use std::f64::consts::PI;
 
 pub(crate) use console_log;
 
-pub fn lch_coloring(n: i32, max: i32) -> (f64, f64, f64) {
+pub fn lch_coloring(n: i32, max: i32) -> String {
     let (nf, maxf) = (f64::from(n), f64::from(max));
-    let s = nf / maxf;
-    let v = 1.0 - (1.5 * PI * s + PI).cos().powf(2.0);
-    (
-        75.0 - (75.0 * v),
-        28.0 + (75.0 - (75.0 * v)),
-        (360.0 * s).powf(1.5) % 360.0,
+    let x = 0.75;
+    let s = (nf / maxf).powf(x);
+    let v = 1.0 - (PI * s).cos().powi(2);
+    let l = 75.0 * (1.0 - v);
+    let c = 28.0 + l;
+    let h = (360.0 * s).powf(1.5) % 360.0;
+
+    format!("lch({}%, {}, {})", l, c, h)
+}
+
+pub fn hsl_coloring(n: i32, max: i32) -> String {
+    let (nf, maxf) = (f64::from(n), f64::from(max));
+
+    format!(
+        "hsl({}, {}%, {}%)",
+        (nf / maxf * 360.0).powf(1.5) % 360.0,
+        100.0,
+        nf / maxf * 100.0
     )
 }
 
-pub fn hsl_coloring(n: i32, max: i32) -> (f64, f64, f64) {
+pub fn rgb_coloring(n: i32, max: i32) -> String {
     let (nf, maxf) = (f64::from(n), f64::from(max));
+    let x = 1.0;
+    let s = (nf / maxf).powf(x);
+    let N = 3.0;
+    let v = (N * s).powf(1.5) % N;
 
-    (
-        (nf / maxf * 360.0).powf(1.5) % 360.0,
-        50.0,
-        nf / maxf * 100.0,
-    )
-
-    // hsl = [powf((i / max) * 360, 1.5) % 360, 50, (i / max) * 100]
+    format!("rgb({}, {}, {})", 255.0 * v, 255.0 * v, 255.0 * v)
 }
