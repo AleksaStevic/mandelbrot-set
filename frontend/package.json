@@ -11,9 +11,6 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"dependencies": {
-		"wasm": "file:../wasm/pkg"
-	},
 	"devDependencies": {
 		"typescript": "^5.2.2",
 		"vite": "^4.4.9",

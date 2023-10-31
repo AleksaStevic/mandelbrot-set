@@ -1,14 +1,13 @@
-use crate::render::CANVAS_SIZE;
+use crate::config::CANVAS_SIZE;
 use crate::Vec2;
 use wasm_bindgen::prelude::*;
 
-// Use lazy_static to create a non-Sync static variable
 static mut TRANSLATION_VECTOR: Vec2 = Vec2(0.11, -0.895);
 static mut ZOOM: Vec2 = Vec2(1700.0, 1700.0);
 
 pub fn to_pixel_space(coords: &Vec2) -> Vec2 {
     let Vec2(x, y) = coords;
-    let Vec2(w, h) = CANVAS_SIZE;
+    let (w, h) = CANVAS_SIZE;
     let Vec2(z1, z2) = get_zoom();
     let Vec2(t1, t2) = get_translation_vec();
 
@@ -20,7 +19,7 @@ pub fn to_pixel_space(coords: &Vec2) -> Vec2 {
 
 pub fn to_vector_space(coords: &Vec2) -> Vec2 {
     let Vec2(x, y) = coords;
-    let Vec2(w, h) = CANVAS_SIZE;
+    let (w, h) = CANVAS_SIZE;
     let Vec2(z1, z2) = get_zoom();
     let Vec2(t1, t2) = get_translation_vec();
 

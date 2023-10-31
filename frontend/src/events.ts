@@ -1,4 +1,4 @@
-import { translate, zoom } from 'wasm'
+import { translate, zoom } from './coords'
 
 export const pressedKeys = new Set<string>()
 

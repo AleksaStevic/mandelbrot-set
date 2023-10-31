@@ -1,5 +1,5 @@
 use wasm_bindgen::JsValue;
-use web_sys::CanvasRenderingContext2d;
+use web_sys::{CanvasRenderingContext2d, ImageData};
 
 use crate::{render::draw_dot, to_vector_space, utils::lch_coloring, vector::Vec2};
 
@@ -14,6 +14,7 @@ pub fn draw_rect(
     size: (i32, i32),
     sides: SidesInSet,
     ctx: &CanvasRenderingContext2d,
+    image_data: &mut ImageData,
 ) {
     let (sx, sy) = s;
     let (w, h) = size;
@@ -91,17 +92,36 @@ pub fn draw_rect(
     let (ow, oh) = (w - hw, h - hh);
 
     // top left
-    draw_rect((sx, sy), (hw, hh), (top, None, None, left), &ctx);
+    draw_rect(
+        (sx, sy),
+        (hw, hh),
+        (top, None, None, left),
+        &ctx,
+        image_data,
+    );
     // top right
-    draw_rect((sx + hw, sy), (ow, hh), (top, right, None, None), &ctx);
+    draw_rect(
+        (sx + hw, sy),
+        (ow, hh),
+        (top, right, None, None),
+        &ctx,
+        image_data,
+    );
     // bottom left
-    draw_rect((sx, sy + hh), (hw, oh), (None, None, bottom, left), &ctx);
+    draw_rect(
+        (sx, sy + hh),
+        (hw, oh),
+        (None, None, bottom, left),
+        &ctx,
+        image_data,
+    );
     // bottom right
     draw_rect(
         (sx + hw, sy + hh),
         (ow, oh),
         (None, right, bottom, None),
         &ctx,
+        image_data,
     );
 }
 
