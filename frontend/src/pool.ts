@@ -1,25 +1,26 @@
-import { WorkerResult, WorkerTask } from './worker.types'
-
 let id = 0
 function getId() {
 	return id++
 }
 
-type Job = {
-	task: WorkerTask
-	resolve: (tile: WorkerResult['tile']) => void
+type Job<WI, WR> = {
+	task: WI
+	resolve: (tile: WR) => void
 	reject: (reason?: any) => void
 }
 
-export class WorkerPool {
+export type WRData<WR> = { resultData: WR; jobId: number }
+export type WIData<WI> = { task: WI; jobId: number }
+
+export class WorkerPool<WI, WR> {
 	// busy workers
 	private busyWorkers = new Map<number, Worker>()
 	// free workers
 	private freeWorkers: { worker: Worker; id: number }[] = []
 	// jobQueue
-	private jobQueue: { job: Job; id: number }[] = []
+	private jobQueue: { job: Job<WI, WR>; id: number }[] = []
 	// runningJobs
-	private runningJobs = new Map<number, Job>()
+	private runningJobs = new Map<number, Job<WI, WR>>()
 
 	constructor(numWorkers: number) {
 		for (let i = 0; i < numWorkers; ++i) {
@@ -30,20 +31,26 @@ export class WorkerPool {
 					type: 'module',
 				}
 			)
-			worker.onmessage = (e: MessageEvent<WorkerResult>) => {
-				const { jobId, tile } = e.data
-				this.onWorkerFinished(id, jobId, worker, tile)
+			worker.onmessage = (e: MessageEvent<WRData<WR>>) => {
+				const { jobId, resultData } = e.data
+				this.onWorkerFinished(id, jobId, worker, resultData)
 			}
 			this.freeWorkers.push({ worker, id })
 		}
 	}
 
-	exec(task: WorkerTask) {
-		return new Promise<WorkerResult['tile']>((resolve, reject) => {
+	exec(input: WI) {
+		return new Promise<WR>((resolve, reject) => {
+			const job: Job<WI, WR> = {
+				task: input,
+				resolve,
+				reject,
+			}
+
 			const freeWorker = this.freeWorkers.pop()
 			if (!freeWorker) {
 				this.jobQueue.push({
-					job: { task, resolve, reject },
+					job,
 					id: getId(),
 				})
 				return
@@ -52,12 +59,12 @@ export class WorkerPool {
 			const { worker, id } = freeWorker
 			const jobId = getId()
 
-			this.runningJobs.set(jobId, { task, resolve, reject })
+			this.runningJobs.set(jobId, job)
 			this.busyWorkers.set(id, worker)
 			worker.postMessage({
-				tile: task.tile,
+				task: input,
 				jobId: jobId,
-			} satisfies WorkerTask & { jobId: number })
+			} satisfies WIData<WI>)
 		})
 	}
 
@@ -65,26 +72,23 @@ export class WorkerPool {
 		workerId: number,
 		jobId: number,
 		worker: Worker,
-		tile: WorkerResult['tile']
+		result: WR
 	) {
-		this.runningJobs.get(jobId)?.resolve(tile)
+		this.runningJobs.get(jobId)?.resolve(result)
 		this.runningJobs.delete(jobId)
 
-		const job = this.jobQueue.pop()
-		if (!job) {
+		const nextJob = this.jobQueue.pop()
+		if (!nextJob) {
 			this.busyWorkers.delete(workerId)
 			this.freeWorkers.push({ worker, id: workerId })
 			return
 		}
 
-		const {
-			job: { task, resolve, reject },
-			id,
-		} = job
-		this.runningJobs.set(id, { task, resolve, reject })
+		const { job, id } = nextJob
+		this.runningJobs.set(id, job)
 		worker.postMessage({
-			tile: task.tile,
+			task: job.task,
 			jobId: id,
-		} satisfies WorkerTask & { jobId: number })
+		} satisfies WIData<WI>)
 	}
 }

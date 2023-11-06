@@ -1,10 +1,11 @@
 import { drawTile } from './mandelbrot'
-import { type WorkerTask, type WorkerResult } from './worker.types'
+import { WIData, WRData } from './pool'
+import { type WorkerInput, type WorkerOutput } from './worker.types'
 
-onmessage = (e: MessageEvent<WorkerTask & { jobId: number }>) => {
+onmessage = (e: MessageEvent<WIData<WorkerInput>>) => {
 	const { data } = e
-	const { tile, jobId } = data
-	const { size, absOffset } = tile
+	const { task, jobId } = data
+	const { size, absOffset } = task
 	const [w, h] = size
 	const canvas = new OffscreenCanvas(w, h)
 	const ctx = canvas.getContext('2d')
@@ -24,11 +25,11 @@ onmessage = (e: MessageEvent<WorkerTask & { jobId: number }>) => {
 	)
 
 	postMessage({
-		tile: {
+		resultData: {
 			image: canvas.transferToImageBitmap(),
 			offset: absOffset,
 			size,
 		},
 		jobId,
-	} satisfies WorkerResult)
+	} satisfies WRData<WorkerOutput>)
 }

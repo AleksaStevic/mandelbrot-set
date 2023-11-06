@@ -3,14 +3,17 @@ import { onKeyDown, onKeyUp } from './events'
 import { benchmark } from './helpers'
 import { WorkerPool } from './pool'
 import { clear } from './render'
-import { WorkerTask } from './worker.types'
+import { WorkerInput, WorkerOutput } from './worker.types'
 
 const element = document.getElementById('mandelbrot-canvas')
 
 if (!element || !(element instanceof HTMLCanvasElement)) {
 	throw new Error('Canvas not found')
 }
-const pool = new WorkerPool(navigator.hardwareConcurrency)
+
+const pool = new WorkerPool<WorkerInput, WorkerOutput>(
+	navigator.hardwareConcurrency
+)
 const Divisions = 4
 const tileWidth = Canvas.Size[0] / Divisions
 const tileHeight = Canvas.Size[1] / Divisions
@@ -40,17 +43,15 @@ function bindListeners() {
 async function draw(ctx: CanvasRenderingContext2D) {
 	clear(ctx)
 
-	const promises: ReturnType<typeof WorkerPool.prototype.exec>[] = []
+	const promises: Promise<WorkerOutput>[] = []
 
 	for (let i = 0; i < Divisions; ++i) {
 		for (let j = 0; j < Divisions; ++j) {
 			promises.push(
 				pool.exec({
-					tile: {
-						absOffset: [i * tileWidth, j * tileHeight],
-						size: [tileWidth, tileHeight],
-					},
-				} satisfies WorkerTask)
+					absOffset: [i * tileWidth, j * tileHeight],
+					size: [tileWidth, tileHeight],
+				})
 			)
 		}
 	}

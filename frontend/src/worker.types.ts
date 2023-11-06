@@ -1,14 +1,10 @@
-import { Tile } from './mandelbrot'
-
-export type WorkerTask = {
-	tile: Omit<Tile, 'relOffset' | 'sides'>
+export type WorkerInput = {
+	absOffset: [number, number]
+	size: [number, number]
 }
 
-export type WorkerResult = {
-	tile: {
-		image: ImageBitmap
-		offset: [number, number]
-		size: [number, number]
-	}
-	jobId: number
+export type WorkerOutput = {
+	image: ImageBitmap
+	offset: [number, number]
+	size: [number, number]
 }
