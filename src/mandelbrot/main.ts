@@ -1,7 +1,7 @@
 import { Canvas } from './config'
 import { bindListeners } from './events'
-import { assert } from './mandelbrot/utils/helpers'
-import { drawGPU } from './mandelbrot/gpu.draw.strategy'
+import { assert } from './utils/helpers'
+import { drawGPU } from './gpu.draw.strategy'
 
 function init() {
 	const canvas = document.getElementById('mandelbrot-canvas')

@@ -1,4 +1,4 @@
-import { assert } from './mandelbrot/utils/helpers'
+import { assert } from './utils/helpers'
 
 // prettier-ignore
 export const vertices = new Float32Array([

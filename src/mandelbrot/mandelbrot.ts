@@ -1,7 +1,7 @@
-import { clamp, lchToRgb } from './mandelbrot/utils/colors'
+import { clamp, lchToRgb } from './utils/colors'
 import { Mandelbrot } from './config'
 import { toVectorSpace } from './coords'
-import { lch, lchStyle } from './mandelbrot/utils/helpers'
+import { lch, lchStyle } from './utils/helpers'
 import { Vec2, add, eq, mag2, sqr } from './vec2'
 
 const MandelbrotFillStyle = lchStyle(

@@ -1,4 +1,4 @@
-import { Canvas } from '../config'
+import { Canvas } from './config'
 import { WorkerPool } from './workers/worker.pool'
 import { WorkerInput, WorkerOutput } from './workers/types'
 

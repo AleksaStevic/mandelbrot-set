@@ -1,4 +1,4 @@
-import { drawTile } from '../../mandelbrot'
+import { drawTile } from '../mandelbrot'
 import { WIData, WRData } from './worker.pool'
 import { type WorkerInput, type WorkerOutput } from './types'
 

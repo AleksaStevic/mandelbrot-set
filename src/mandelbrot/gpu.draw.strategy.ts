@@ -1,7 +1,7 @@
-import { Canvas } from '../config'
-import { translate, translationVector, zoom, zoomFactor } from '../coords'
-import { pressedKeys } from '../events'
-import { createShaderProgram, vertices } from '../webgl'
+import { Canvas } from './config'
+import { translate, translationVector, zoom, zoomFactor } from './coords'
+import { pressedKeys } from './events'
+import { createShaderProgram, vertices } from './webgl'
 import { vsSource, fsSource } from './shaders'
 import { assert } from './utils/helpers'
 
