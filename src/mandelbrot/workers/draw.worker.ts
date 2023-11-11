@@ -1,6 +1,6 @@
-import { drawTile } from './mandelbrot'
-import { WIData, WRData } from './pool'
-import { type WorkerInput, type WorkerOutput } from './worker.types'
+import { drawTile } from '../../mandelbrot'
+import { WIData, WRData } from './worker.pool'
+import { type WorkerInput, type WorkerOutput } from './types'
 
 onmessage = (e: MessageEvent<WIData<WorkerInput>>) => {
 	const { data } = e

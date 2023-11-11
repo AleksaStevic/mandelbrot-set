@@ -1,5 +1,5 @@
 export const Canvas = {
-	Size: [1024, 1024],
+	Size: [800, 800],
 	Id: 'mandelbrot-canvas',
 } as const
 

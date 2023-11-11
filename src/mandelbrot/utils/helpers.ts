@@ -22,3 +22,13 @@ export function lch(n: number, max: number): LCHColor {
 export function lchStyle(c: LCHColor) {
 	return `lch(${c.l}%, ${c.c}, ${c.h})`
 }
+
+export function assert(
+	value: any,
+	message: string | ((value: any) => void)
+): asserts value {
+	if (!value) {
+		if (typeof message === 'string') throw new Error(message)
+		else message(value)
+	}
+}

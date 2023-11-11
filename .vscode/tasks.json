@@ -4,30 +4,9 @@
     {
       "type": "npm",
       "script": "dev",
-      "path": "frontend",
       "problemMatcher": [],
-      "label": "npm: dev - frontend",
+      "label": "npm: dev",
       "detail": "vite"
-    },
-    {
-      "label": "Wasm Watch Debug",
-      "type": "shell",
-      "command": "cargo watch -C wasm -i .gitignore -i \"pkg/*\" -s \"wasm-pack build --debug\"",
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Wasm Watch Release",
-      "type": "shell",
-      "command": "cargo watch -C wasm -i .gitignore -i \"pkg/*\" -s \"wasm-pack build\"",
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      },
-      "problemMatcher": []
     }
   ]
 }

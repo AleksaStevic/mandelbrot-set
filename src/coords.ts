@@ -1,8 +1,8 @@
 import { add, div, mul, type Vec2 } from './vec2'
 import { Canvas } from './config'
 
-let translationVector: Vec2 = [0.11, -0.895]
-let zoomFactor: Vec2 = [1700.0, 1700.0]
+export let translationVector: Vec2 = [0.5, 0]
+export let zoomFactor: Vec2 = [1, 1]
 
 export function toPixelSpace(coords: Vec2): Vec2 {
 	const [x, y] = coords
