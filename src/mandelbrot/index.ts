@@ -3,7 +3,7 @@ import { bindListeners } from './events'
 import { assert } from './utils/helpers'
 import { drawGPU } from './gpu.draw.strategy'
 
-function init() {
+export function init() {
 	const canvas = document.getElementById('mandelbrot-canvas')
 	assert(
 		canvas && canvas instanceof HTMLCanvasElement,
@@ -16,5 +16,3 @@ function init() {
 	bindListeners()
 	drawGPU(gl)
 }
-
-init()

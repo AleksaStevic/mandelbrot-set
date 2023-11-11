@@ -4,17 +4,35 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Mandelbrot Set</title>
-		<style>
-			body {
-				margin: 0;
-				outline: 0;
-				padding: 0;
-			}
-		</style>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 	<body>
-		<canvas id="mandelbrot-canvas" width="1024" height="768"></canvas>
-		<p id="fps"></p>
-		<script type="module" src="/src/mandelbrot/main.ts"></script>
+		<div class="page-wrapper">
+			<h1>Mandelbrot Set</h1>
+			<p>
+				Use <code>WASD</code> to move and <code>Q</code> and
+				<code>E</code> to zoom in/out.
+			</p>
+			<div class="section">
+				<div class="main-content">
+					<p id="fps">
+						FPS:
+						<code></code>
+					</p>
+					<canvas
+						id="mandelbrot-canvas"
+						width="800"
+						height="800"
+					></canvas>
+				</div>
+				<div class="sidebar"></div>
+			</div>
+		</div>
+		<script type="module" src="/src/main.ts"></script>
 	</body>
 </html>

@@ -30,15 +30,15 @@ export function drawGPU(gl: WebGL2RenderingContext) {
 
 	gl.useProgram(program)
 
-	const fpsP = document.getElementById('fps')
-	assert(fpsP, 'FPS element not found.')
+	const fpsP = document.getElementById('fps')?.getElementsByTagName('code')
+	assert(fpsP && fpsP.length > 0, 'FPS element not found.')
 
 	let lastFrame = 0
 	let frame = 0
 
 	setInterval(() => {
 		const fps = (frame - lastFrame + 1) * 2
-		fpsP.textContent = fps.toString()
+		fpsP[0].textContent = fps.toString()
 		lastFrame = frame
 	}, 500)
 
